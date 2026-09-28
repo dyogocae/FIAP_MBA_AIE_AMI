@@ -3,25 +3,34 @@
 ## Plano de aula:
 Aplicação local de chat com traces, RAG e o baseline fan-out da Aula 02. Os dados são sintéticos: o sistema consulta e propõe, mas não executa ações de negócio.
 
-## Instalação
-Requer Python 3.11/3.12, CPU, rede e uma chave de modelo compatível. Antes de criar o ambiente, confirme com `python --version` que o comando aponta para uma dessas versões.
+## Ambiente compartilhado
+
+Python 3.11/3.12. Execute uma vez na **raiz do repositório**:
 
 ```powershell
-git clone https://github.com/p-caixeta/FIAP_MBA_AIE_AMI.git
-cd .\FIAP_MBA_AIE_AMI\Aula_03 
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-Copy-Item .env.example .env
-# caso esteja no cmd:
-# copy .env.example .env
-
-# Abra .env, informe OPENAI_API_KEY e salve.
-python app.py
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+# Edite .env na raiz com sua chave; não sobrescreva um .env já configurado.
 ```
 
-Abra http://127.0.0.1:5000. Se a ativação for bloqueada, use `.\.venv\Scripts\python.exe -m pip install -r requirements.txt` e `.\.venv\Scripts\python.exe app.py`.
+Todas as aulas usam o mesmo `requirements.txt`, `.venv` e `.env` da raiz.
+Variáveis já definidas no processo prevalecem; `.env` antigo de uma aula serve
+apenas de fallback para valores ausentes. Não é preciso copiar chaves entre aulas.
+Se a ativação for bloqueada, use `.\.venv\Scripts\python.exe` no lugar de `python`.
+No VS Code, selecione o interpretador `.venv/Scripts/python.exe` da raiz.
+Venvs antigos não foram removidos: evite ativá-los junto com o ambiente compartilhado.
 
+Para iniciar a partir da raiz:
+
+```powershell
+python Aula_03/app.py
+```
+
+Abra http://127.0.0.1:5000. Salvar Python recarrega o app; alterações no `.env`
+ou nos dados exigem reinício. Os notebooks Colab continuam independentes e
+instalam o mesmo conjunto de versões em seu próprio runtime.
 
 | Etapa | O que muda | Arquivo editável |
 |---|---|---|
@@ -40,6 +49,7 @@ Os notebooks independentes ficam em `notebooks/301_grafo_e_rag_fixo.ipynb` e `no
 ## Problemas comuns: 
 confira chave/modelo para 401/403/404; instale requisitos no venv correto; se a porta 5000 estiver ocupada, encerre o servidor anterior ou altere `PORT` em `config.py`; se o reload ocorrer durante uma execução, reenvie a pergunta manualmente. 
 
-Se o traceback apontar para outro Python (por exemplo `Python310\Lib\site-packages`) ou informar que o Python-base não existe, o `.venv` foi criado com um interpretador antigo/removido. Instale Python 3.11 ou 3.12 ( winget install -e --id Python.Python.3.12), apague somente a pasta `.venv`, recrie-a e instale os requisitos novamente.
+Se o Python-base do venv deixou de existir, recrie o `.venv` da raiz com Python 3.11/3.12 instalado.
+
 ## Limites: 
 conversa e runs só existem na memória da página; dados e propostas são sintéticos.

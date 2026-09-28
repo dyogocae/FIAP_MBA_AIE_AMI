@@ -4,24 +4,34 @@ Continuação independente da aplicação da Aula 03: mesmo atendimento P100/E10
 fan-out, políticas, TF-IDF, eventos e citações. A cópia não importa arquivos de outra aula.
 O aluno modifica uma função, salva, verifica o código e repete a pergunta.
 
-## Executar
+## Ambiente compartilhado
 
-Python 3.11/3.12. Na raiz do repositório:
+Python 3.11/3.12. Execute uma vez na **raiz do repositório**:
 
 ```powershell
-cd Aula_04
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-Copy-Item .env.example .env
-# Abra .env, informe OPENAI_API_KEY e confira OPENAI_MODEL.
-python app.py
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+# Edite .env na raiz com sua chave; não sobrescreva um .env já configurado.
 ```
 
-Abra http://127.0.0.1:5001. Sem ativação do venv, use
-`.\.venv\Scripts\python.exe -m pip install -r requirements.txt` e
-`.\.venv\Scripts\python.exe app.py`. Nenhuma chave é copiada de Aula 03.
-Salvar `.py` recarrega o servidor; `.env` e dados exigem parar/iniciar.
+Todas as aulas usam o mesmo `requirements.txt`, `.venv` e `.env` da raiz.
+Variáveis já definidas no processo prevalecem; `.env` antigo de uma aula serve
+apenas de fallback para valores ausentes. Não é preciso copiar chaves entre aulas.
+Se a ativação for bloqueada, use `.\.venv\Scripts\python.exe` no lugar de `python`.
+No VS Code, selecione o interpretador `.venv/Scripts/python.exe` da raiz.
+Venvs antigos não foram removidos: evite ativá-los junto com o ambiente compartilhado.
+
+Para iniciar a partir da raiz:
+
+```powershell
+python Aula_04/app.py
+```
+
+Abra http://127.0.0.1:5001. Salvar Python recarrega o app; alterações no `.env`
+ou nos dados exigem reinício. Os notebooks Colab continuam independentes e
+instalam o mesmo conjunto de versões em seu próprio runtime.
 
 ## Três blocos, o mesmo caso
 

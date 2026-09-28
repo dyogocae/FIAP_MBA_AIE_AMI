@@ -9,3 +9,40 @@ The module explores the fundamentals of autonomous agents, multi-agent systems, 
 **Paulo Oliveira**   profpaulo.oliveira@fiap.com.br
 ##### [LinkedIn](https://www.linkedin.com/in/pc-oliveira/) 
  
+
+## Ambiente compartilhado
+
+Python 3.11/3.12. Execute uma vez na **raiz do repositório**:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+# Edite .env na raiz com sua chave; não sobrescreva um .env já configurado.
+```
+
+Todas as aulas usam o mesmo `requirements.txt`, `.venv` e `.env` da raiz.
+Variáveis já definidas no processo prevalecem; `.env` antigo de uma aula serve
+apenas de fallback para valores ausentes. Não é preciso copiar chaves entre aulas.
+Se a ativação for bloqueada, use `.\.venv\Scripts\python.exe` no lugar de `python`.
+No VS Code, selecione o interpretador `.venv/Scripts/python.exe` da raiz.
+Venvs antigos não foram removidos: evite ativá-los junto com o ambiente compartilhado.
+
+## Executar uma aula
+
+Na raiz, com o ambiente ativado:
+
+| Aula | Comando | Endereço |
+|---|---|---|
+| 03 · RAG | `python Aula_03/app.py` | http://127.0.0.1:5000 |
+| 04 · Memória | `python Aula_04/app.py` | http://127.0.0.1:5001 |
+| 05 · MCP | `python Aula_05/app.py` | http://127.0.0.1:5002 |
+
+Aula 05 oferece diagnóstico MCP sem chave de modelo. Confira [as instruções](Aula_05/README.md).
+Cada aula conserva seus próprios dados e runtime; somente o ambiente Python e
+a configuração são compartilhados. Não há instalação no Python global da máquina.
+
+Para manter os notebooks consistentes após alterar versões, execute `python tools/sync_notebook_requirements.py` e confira com `--check`. Os geradores das Aulas 03/04/05 também leem o arquivo da raiz.
+
+Neste workspace Windows foi preparado um Python 3.12 local em `.python-runtime` para sustentar `.venv`; ambos ficam fora do Git. O ambiente não depende mais de uma pasta temporária. Em outro computador, crie a venv com seu Python instalado.

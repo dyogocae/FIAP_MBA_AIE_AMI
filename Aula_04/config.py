@@ -24,9 +24,10 @@ RUN_DEADLINE_S = 120
 
 
 def load_environment() -> None:
-    """Carrega somente o .env local do servidor, sem sobrescrever o ambiente."""
+    """Ambiente do processo > .env da raiz > .env legado da aula."""
     from dotenv import load_dotenv
 
+    load_dotenv(ROOT.parent / ".env", override=False)
     load_dotenv(ROOT / ".env", override=False)
 
 
